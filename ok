@@ -1,9 +1,10 @@
-    "iterations": trial.suggest_int("iterations", 300, 1000),  # balance between speed and convergence
-    "depth": trial.suggest_int("depth", 4, 8),  # avoid overfitting
-    "learning_rate": trial.suggest_float("learning_rate", 0.02, 0.1, log=True),  # small learning rate helps
-    "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 5.0, 25.0, log=True),  # stronger regularization
-    "random_strength": trial.suggest_float("random_strength", 1.0, 10.0),  # more randomness, helps generalization
-    "bagging_temperature": trial.suggest_float("bagging_temperature", 0.5, 2.0),  # controls subsampling
-    "border_count": trial.suggest_int("border_count", 64, 128),  # num binarization splits
-    "loss_function": "Logloss",
-    "eval_metric": "F1",  # CatBoost accepts "F1" only with binary classification
+    params = {
+        "n_estimators": trial.suggest_int("n_estimators", 100, 1000),
+        "learning_rate": trial.suggest_float("learning_rate", 0.01, 0.2, log=True),
+        "max_depth": trial.suggest_int("max_depth", 3, 8),  # lower depth for many features
+        "min_samples_split": trial.suggest_int("min_samples_split", 2, 10),
+        "min_samples_leaf": trial.suggest_int("min_samples_leaf", 1, 10),
+        "max_features": trial.suggest_categorical("max_features", ["sqrt", "log2", None]),  # for wide features
+        "subsample": trial.suggest_float("subsample", 0.6, 1.0),  # random sampling
+        "random_state": 42
+    }
